@@ -22,7 +22,7 @@ Need to download the Instacart Market Basket Dataset from Kaggle (https://www.ka
 
 ## recommender/src
 
-In this directory we have all the .py files that are used for cleaning, processing and training our data sets for the recommender system. Each .py file has it's own functionality. To run the `recommender.py`, you will have to add three arguments namely, User ID (1), No. of similar users(20) and No. of recommended products(10).
+In this directory we have all the .py files that are used for cleaning, processing and training our data sets for the recommender system. Each .py file has it's own functionality. To run the `recommender.py`, you will have to add three arguments namely, User ID (1), No. of similar users (20) and No. of recommended products (10).
 ```
 python recommender.py 1 20 10
 ```
