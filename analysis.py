@@ -69,7 +69,8 @@ def numOrderDaysSizeBubble(path_to_dataset):
     import matplotlib
     import matplotlib.pyplot as plt
     import seaborn as sns
-
+    
+    assert isinstance(path_to_dataset, str)
     
     
     order_file_path = path_to_dataset + '/orders.csv'
@@ -120,3 +121,66 @@ def numOrderDaysSizeBubble(path_to_dataset):
     ax.get_yaxis().set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, p: format(int(x/1000))))
     my_yticks = ax.get_yticks()
     plt.yticks([my_yticks[-2], my_yticks[0]], visible=True);
+    
+    
+def orderTimeHeatMaps(path_to_dataset):
+    """
+    Plots the distribution of order with respect to hour of day and day of the week.
+    :param path_to_dataset: this path should have all the .csv files for the dataset
+    :type path_to_dataset: str
+    """
+    
+    assert isinstance(path_to_dataset, str)
+    
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import numpy as np
+    
+    order_file_path = path_to_dataset + '/orders.csv'
+    
+    orders = pd.read_csv(order_file_path)
+
+    grouped_data = orders.groupby(["order_dow", "order_hour_of_day"])["order_number"].aggregate("count").reset_index()
+    grouped_data = grouped_data.pivot('order_dow', 'order_hour_of_day', 'order_number')
+
+    grouped_data.index = pd.CategoricalIndex(grouped_data.index, categories=[0,1,2,3,4,5,6])
+    grouped_data.sort_index(level=0, inplace=True)
+
+    plt.figure(figsize=(12,6))
+    hour_of_day = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14','15','16', '17', '18', '19','20', '21', '22', '23']
+    dow = [ 'SUN', 'MON', 'TUES', 'WED', 'THUR','FRI','SAT']  
+
+    ax = sns.heatmap(grouped_data, xticklabels=hour_of_day,yticklabels=dow,cbar_kws={'label': 'Number Of Orders Made/1000'})
+    cbar = ax.collections[0].colorbar
+    cbar.set_ticks([0, 10000, 20000, 30000, 40000, 50000])
+    cbar.set_ticklabels(['0','10.0','20.0','30.0','40.0','50.0'])
+    ax.figure.axes[-1].yaxis.label.set_size(15)
+    ax.figure.axes[0].yaxis.label.set_size(15)
+    ax.figure.axes[0].xaxis.label.set_size(15)
+
+    ax.set(xlabel='Hour of Day', ylabel= "Day of the Week")
+    ax.set_title("Number of orders made by Day of the Week vs Hour of Day", fontsize=15)
+    plt.show()
+
+    grouped_data = orders.groupby(["order_dow", "order_hour_of_day"])["order_number"].aggregate("count").reset_index()
+    grouped_data = grouped_data.pivot('order_dow', 'order_hour_of_day', 'order_number')
+
+    grouped_data.index = pd.CategoricalIndex(grouped_data.index, categories=[0,1,2,3,4,5,6])
+    grouped_data.sort_index(level=0, inplace=True)
+
+    plt.figure(figsize=(12,6))
+    hour_of_day = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14','15','16', '17', '18', '19','20', '21', '22', '23']
+    dow = [ 'SUN', 'MON', 'TUES', 'WED', 'THUR','FRI','SAT']  
+
+    ax = sns.heatmap(np.log(grouped_data), xticklabels=hour_of_day,yticklabels=dow,cbar=False)
+    cbar = ax.collections[0].colorbar
+
+    ax.figure.axes[-1].yaxis.label.set_size(15)
+    ax.figure.axes[0].yaxis.label.set_size(15)
+    ax.figure.axes[0].xaxis.label.set_size(15)
+
+
+    ax.set(xlabel='Hour of Day', ylabel= "Day of the Week")
+    ax.set_title("Number of orders made by Day of the Week vs Hour of Day (Log Scale)", fontsize=15)
+    plt.show()
