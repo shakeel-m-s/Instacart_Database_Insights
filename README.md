@@ -18,7 +18,7 @@ pip install requirements.txt
 
 ## Usage
 
-Need to download the Instacart Market Basket Dataset from Kaggle (https://www.kaggle.com/c/instacart-market-basket-analysis/overview). The data we generated are stored in [data/martixes](https://github.com/chaitanyaspatil/Instacart_Database_Insights/tree/main/recommender/data/matrixes) folder and the results are stored in [results](https://github.com/chaitanyaspatil/Instacart_Database_Insights/tree/main/recommender/results).
+Need to download the Instacart Market Basket Dataset from [Kaggle](https://www.kaggle.com/c/instacart-market-basket-analysis/overview). The data we generated are stored in [data/martixes](https://github.com/chaitanyaspatil/Instacart_Database_Insights/tree/main/recommender/data/matrixes) folder and the results are stored in [results](https://github.com/chaitanyaspatil/Instacart_Database_Insights/tree/main/recommender/results).
 
 ## recommender/src
 
