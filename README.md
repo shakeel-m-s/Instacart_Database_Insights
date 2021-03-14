@@ -1,10 +1,16 @@
 # Instacart Data Analyzer and Recommender System
 ECE 143 Project Group 17 (Winter 2021)
+
 Authors:
+
 Alan Contreres
+
 Chaitanya Patil
+
 Sanika Patange
+
 Shakeel Mansoor Shaikna
+
 Yijun Yan
 
 ## Installation
@@ -43,4 +49,4 @@ python recommender.py 1 20 10
 ```
 Since, most of the functions are linked it would be easier to run the `recommender_system.ipynb` which illustrates the working of our recommender system and contains all the plots with regards to the recommender system.
 
-## Group17_Assignment5.ipynb contains the homework test cases assigned to this group.
+### Group17_Assignment5.ipynb contains the homework test cases assigned to this group.
