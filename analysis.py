@@ -229,3 +229,83 @@ def generateWordCloud(path_to_dataset):
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.show()
+
+def no_of_orders(path_to_data = './instacart-market-basket-analysis'):
+    """
+    pass path to orders.csv
+    """
+    
+    bins = 10
+    path = path_to_data + '/orders.csv'
+    import numpy as np # linear algebra
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import pandas as pd 
+    import numpy as np 
+    import matplotlib.pyplot as plt 
+    import matplotlib.mlab as mlab
+    import seaborn as sns 
+    from scipy.optimize import curve_fit
+    from IPython.display import display, HTML
+    
+    
+    orders = pd.read_csv(path) 
+    sns.set_style('dark')
+    customer_no = orders.groupby("user_id", as_index = False)["order_number"].max() 
+    
+    n, bins, patches = plt.hist(customer_no["order_number"] , bins, color='blue', alpha=0.5)
+
+    plt.xlabel("No. of Orders")
+    plt.ylabel("Count")
+    plt.title("Number of Orders per Customer")
+
+
+def freq_product(path1 = "./instacart-market-basket-analysis/order_products__train.csv",path2 = "./instacart-market-basket-analysis/order_products__prior.csv" , path3 = "./instacart-market-basket-analysis/products.csv"):
+    import numpy as np # linear algebra
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import pandas as pd 
+    import numpy as np 
+    import matplotlib.pyplot as plt 
+    import matplotlib.mlab as mlab
+    import seaborn as sns 
+    from scipy.optimize import curve_fit
+    from IPython.display import display, HTML
+    order_products_train = pd.read_csv(path1) 
+    order_products_prior = pd.read_csv(path2)
+    products = pd.read_csv(path3)
+    t_p = order_products_train.append(order_products_prior,ignore_index = True)
+    prod = t_p.groupby("product_id",as_index = False)["order_id"].count() 
+
+    top = 20
+    product_Count = prod.sort_values("order_id",ascending = False)
+    df1 = product_Count.iloc[0:top,:]
+    df1 = df1.merge(products,on = "product_id")
+    display(df1.loc[:,["product_name"]])
+    
+def dept_prod(m = "./instacart-market-basket-analysis/products.csv" , n = "./instacart-market-basket-analysis/departments.csv" , p = "./instacart-market-basket-analysis/aisles.csv"):
+    import numpy as np # linear algebra
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import pandas as pd 
+    import numpy as np 
+    import matplotlib.pyplot as plt 
+    import matplotlib.mlab as mlab
+    import seaborn as sns 
+    from scipy.optimize import curve_fit
+    from IPython.display import display, HTML
+    products = pd.read_csv(m)
+    departments = pd.read_csv(n) 
+    aisles = pd.read_csv(p)
+    x = pd.merge(left=products, right=departments, how='left')
+    lists = pd.merge(left = x, right=aisles, how='left')
+    
+    group_list = lists.groupby("department")["product_id"].aggregate({'Total_products': 'count'}) 
+    final = group_list.reset_index() 
+    final.sort_values(by='Total_products', ascending=False, inplace=True)
+    
+    sns.set_style('white') 
+    ax = sns.barplot(x="Total_products", y="department", data=final,color = 'gray' )
+
+    r = ax.spines["right"].set_visible(False)
+    t = ax.spines["top"].set_visible(False)
