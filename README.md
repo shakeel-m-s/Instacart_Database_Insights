@@ -16,6 +16,7 @@ Third-party modules:
 - pandas 1.2.1
 - matplotlib 3.3.4
 - scikit-learn 0.24.1
+... and a few more listed in requirements.txt
 
 Install dependencies
 ```
