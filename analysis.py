@@ -309,3 +309,39 @@ def dept_prod(m = "./instacart-market-basket-analysis/products.csv" , n = "./ins
 
     r = ax.spines["right"].set_visible(False)
     t = ax.spines["top"].set_visible(False)
+
+
+def dept_reorder(path = "order_products__prior.csv" , m = "products.csv" , n = "departments.csv" , p = "aisles.csv"):
+    import numpy as np # linear algebra
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import pandas as pd 
+    import numpy as np 
+    import matplotlib.pyplot as plt 
+    import matplotlib.mlab as mlab
+    import seaborn as sns 
+    from scipy.optimize import curve_fit
+    from IPython.display import display, HTML
+    products = pd.read_csv(m)
+    departments = pd.read_csv(n) 
+    aisles = pd.read_csv(p)
+    
+    order_products_prior = pd.read_csv(path)
+    
+    order_products_prior = pd.merge(order_products_prior, products, on='product_id', how='left')
+    order_products_prior = pd.merge(order_products_prior, aisles, on='aisle_id', how='left')
+    order_products_prior = pd.merge(order_products_prior, departments, on='department_id', how='left')
+    
+    df2 = order_products_prior.groupby(["department"])["reordered"].aggregate("mean").reset_index()
+
+    plt.figure(figsize=(12,8))
+    sns.set_style('white')
+
+    ax1 = sns.scatterplot(df2['reordered'].values,df2['department'].values , color = 'gray')
+    plt.ylabel('Department', fontsize=15)
+    plt.xlabel('Reorder Ratio' , fontsize=15)
+    plt.title("Department wise reorder ratio", fontsize=15)
+    plt.xticks(rotation='horizontal')
+    r = ax1.spines["right"].set_visible(False)
+    t = ax1.spines["top"].set_visible(False)
+    plt.show() 
