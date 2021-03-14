@@ -184,3 +184,48 @@ def orderTimeHeatMaps(path_to_dataset):
     ax.set(xlabel='Hour of Day', ylabel= "Day of the Week")
     ax.set_title("Number of orders made by Day of the Week vs Hour of Day (Log Scale)", fontsize=15)
     plt.show()
+    
+def generateWordCloud(path_to_dataset):
+    """
+    Generates word cloud.
+    :param path_to_dataset: path to dataset
+    :type path_to_dataset: str
+    """
+    
+    assert isinstance(path_to_dataset, str)
+    
+    from wordcloud import WordCloud
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    
+    product_path = path_to_dataset + "/products.csv"
+    aisles_path = path_to_dataset + "/aisles.csv"
+    departments_path = path_to_dataset + "/departments.csv"
+    order_product_prior_path = path_to_dataset + "/order_products__prior.csv"
+
+    df_products = pd.read_csv(product_path)
+    df_aisles = pd.read_csv(aisles_path)
+    df_departments = pd.read_csv(departments_path)
+    df_order_products_prior = pd.read_csv(order_product_prior_path)
+
+    # Merge Prior orders, Product, Aisle and Department 
+    df_order_products_prior_merged = pd.merge(
+                                        pd.merge(pd.merge(df_order_products_prior, df_products, on="product_id", how="left"), 
+                                            df_aisles, 
+                                            on="aisle_id", 
+                                            how="left"), 
+                                        df_departments, 
+                                        on="department_id", 
+                                        how="left")
+    # Top N products by frequency
+    top_products = df_order_products_prior_merged["product_name"].value_counts()
+
+
+    d = top_products.to_dict()
+
+    wordcloud = WordCloud(background_color='white')
+    wordcloud.generate_from_frequencies(frequencies=d)
+    plt.figure(figsize = (8,8))
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
