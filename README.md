@@ -29,8 +29,10 @@ Need to download the Instacart Market Basket Dataset from [Kaggle](https://www.k
 
 ## Data Analysis
 
-All plots are generated in 'documentation notebook.ipynb'. The module used is analysis.py, which contains all the plotting functions.
+All plots are generated in 'Data_Exploration.ipynb'. The module used is analysis, which contains all the plotting functions.
 Make sure you have a directory in which you have all the unzipped .csv files found in the dataset. The path to this directory must be given to each of the functions in order to run it.
+
+The directory 'Rough_Notebooks' contains some rough work done for data analysis for documentation purposes.
 
 ## recommender/src
 
